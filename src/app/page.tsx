@@ -17,7 +17,7 @@ const Home: React.FC = () => {
   const [spheres, setSpheres] = useState<SphereProps[]>([]);
 
   return (
-    <main style={{ width: "100vw", height: "100vh" }}>
+    <main style={{ width: "100vw", height: "100vh", background: "black" }}>
       <Suspense fallback={"bentar..."}>
         <Canvas shadows camera={{ position: [1, 1, 4] }} frameloop="demand">
           <ambientLight intensity={0.1} />

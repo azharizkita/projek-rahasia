@@ -2,6 +2,7 @@ import { Html } from "@react-three/drei";
 import React, { useLayoutEffect, useMemo, useState } from "react";
 import { BufferGeometry, Vector3 } from "three";
 import { useSpring, animated } from "@react-spring/web";
+import { Box, Flex } from "@chakra-ui/react";
 
 interface SphereProps {
   position: Vector3;
@@ -44,20 +45,19 @@ const Sphere = ({ position, color, label }: SphereProps) => {
         <>
           <mesh>
             <Html position={textPosition} center>
-              <animated.div
-                style={{
-                  ...springProps,
-                  background: "white",
-                  padding: "0.5em",
-                  color,
-                  minWidth: "6em",
-                  textAlign: "center",
-                  borderRadius: "0.5em",
-                  border: "1px solid",
-                  borderColor: color,
-                }}
-              >
-                {label}
+              <animated.div style={{ ...springProps, overflow: "hidden" }}>
+                <Box
+                  p="0.5em"
+                  minWidth="6em"
+                  textAlign="center"
+                  borderColor={color}
+                  borderWidth="medium"
+                  style={{ borderRadius: "5px" }}
+                  overflow="hidden"
+                  bg="whitesmoke"
+                >
+                  {label}
+                </Box>
               </animated.div>
             </Html>
           </mesh>
