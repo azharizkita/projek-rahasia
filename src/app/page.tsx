@@ -19,7 +19,7 @@ const Home: React.FC = () => {
   return (
     <main style={{ width: "100vw", height: "100vh" }}>
       <Suspense fallback={"bentar..."}>
-        <Canvas shadows camera={{ position: [1, 1, 4] }}>
+        <Canvas shadows camera={{ position: [1, 1, 4] }} frameloop="demand">
           <ambientLight intensity={0.1} />
           <Model
             onClickModel={(vector) => {

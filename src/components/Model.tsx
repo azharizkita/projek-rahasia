@@ -35,10 +35,11 @@ const Model: React.FC<PrimitiveProps> = (props) => {
         castShadow
         receiveShadow
         onClick={(event) => {
+          event.pointer.x
           const raycaster = new THREE.Raycaster();
           const mousePos = new THREE.Vector2();
-          mousePos.x = (event.clientX / window.innerWidth) * 2 - 1;
-          mousePos.y = -(event.clientY / window.innerHeight) * 2 + 1;
+          mousePos.x =  event.pointer.x
+          mousePos.y =  event.pointer.y
           raycaster.setFromCamera(mousePos, camera);
           const intersects = raycaster.intersectObjects([gltf.scene]);
           if (intersects.length > 0) {

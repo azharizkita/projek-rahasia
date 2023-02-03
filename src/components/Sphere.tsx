@@ -1,5 +1,5 @@
 import { Html } from "@react-three/drei";
-import React, { useLayoutEffect, useState } from "react";
+import React, { useLayoutEffect, useMemo, useState } from "react";
 import { BufferGeometry, Vector3 } from "three";
 import { useSpring, animated } from "@react-spring/web";
 
@@ -13,7 +13,10 @@ const Sphere = ({ position, color, label }: SphereProps) => {
   const [showText, setShowText] = useState(false);
   const springProps = useSpring({ opacity: showText ? 1 : 0 });
   const spherePosition = position;
-  const textPosition = new Vector3(position.x, position.y + 0.75, position.z);
+  const textPosition = useMemo(
+    () => new Vector3(position.x, position.y + 0.75, position.z),
+    [position]
+  );
   const ref = React.useRef<BufferGeometry>(null);
 
   useLayoutEffect(() => {
@@ -22,6 +25,7 @@ const Sphere = ({ position, color, label }: SphereProps) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [spherePosition, showText]);
+
   return (
     <>
       <mesh
@@ -32,9 +36,9 @@ const Sphere = ({ position, color, label }: SphereProps) => {
           setShowText((state) => !state);
         }}
       >
-        <pointLight color={color} />
-        <sphereGeometry args={[0.05, 32, 32]} />
+        <sphereGeometry args={[0.05, 16, 16]} />
         <meshLambertMaterial color={color} emissive={color} />
+        <pointLight color={color} />
       </mesh>
       {showText && (
         <>
@@ -44,12 +48,12 @@ const Sphere = ({ position, color, label }: SphereProps) => {
                 style={{
                   ...springProps,
                   background: "white",
-                  padding: "2em",
+                  padding: "0.5em",
                   color,
-                  minWidth: "10em",
+                  minWidth: "6em",
                   textAlign: "center",
-                  borderRadius: "1em",
-                  border: "2px solid",
+                  borderRadius: "0.5em",
+                  border: "1px solid",
                   borderColor: color,
                 }}
               >
