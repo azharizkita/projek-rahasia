@@ -11,14 +11,13 @@ interface PrimitiveProps {
   onClickModel?: (vector: THREE.Vector3) => void;
 }
 
-const Model: React.FC<PrimitiveProps> = (props) => {
+export const Model: React.FC<PrimitiveProps> = (props) => {
   const { camera } = useThree();
   const gltf = useLoader(GLTFLoader, "./Duck.gltf");
   const [mixer, setMixer] = useState<THREE.AnimationMixer | null>(null);
   useEffect(() => {
     const _mixer = new THREE.AnimationMixer(gltf.scene);
     gltf.animations.forEach((animation) => {
-      console.log(animation);
       const action = _mixer.clipAction(animation);
       action.play();
     });
@@ -35,11 +34,10 @@ const Model: React.FC<PrimitiveProps> = (props) => {
         castShadow
         receiveShadow
         onClick={(event) => {
-          event.pointer.x
           const raycaster = new THREE.Raycaster();
           const mousePos = new THREE.Vector2();
-          mousePos.x =  event.pointer.x
-          mousePos.y =  event.pointer.y
+          mousePos.x = event.pointer.x;
+          mousePos.y = event.pointer.y;
           raycaster.setFromCamera(mousePos, camera);
           const intersects = raycaster.intersectObjects([gltf.scene]);
           if (intersects.length > 0) {
@@ -56,5 +54,3 @@ const Model: React.FC<PrimitiveProps> = (props) => {
     </>
   );
 };
-
-export default Model;

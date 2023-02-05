@@ -1,16 +1,28 @@
 import { Html } from "@react-three/drei";
 import React, { useLayoutEffect, useMemo, useState } from "react";
-import { BufferGeometry, Vector3 } from "three";
+import { BufferGeometry, Color, Vector3 } from "three";
 import { useSpring, animated } from "@react-spring/web";
-import { Box, Flex } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 
-interface SphereProps {
+export interface BareSphereProps {
   position: Vector3;
-  color: string;
-  label: string;
+  color: Color;
+  name: string;
+  sphereId: number;
+}
+interface SphereProps extends BareSphereProps {
+  isInnerEventDisabled?: boolean;
+  onClick?: (sphereId: number) => void;
 }
 
-const Sphere = ({ position, color, label }: SphereProps) => {
+const Sphere = ({
+  position,
+  color,
+  name,
+  sphereId,
+  isInnerEventDisabled = false,
+  onClick,
+}: SphereProps) => {
   const [showText, setShowText] = useState(false);
   const springProps = useSpring({ opacity: showText ? 1 : 0 });
   const spherePosition = position;
@@ -34,7 +46,9 @@ const Sphere = ({ position, color, label }: SphereProps) => {
         receiveShadow
         position={spherePosition}
         onClick={() => {
-          setShowText((state) => !state);
+          if (!isInnerEventDisabled) setShowText((state) => !state);
+          if (!onClick) return;
+          onClick(sphereId);
         }}
       >
         <sphereGeometry args={[0.05, 16, 16]} />
@@ -44,19 +58,18 @@ const Sphere = ({ position, color, label }: SphereProps) => {
       {showText && (
         <>
           <mesh>
-            <Html position={textPosition} center>
+            <Html position={textPosition} center prepend>
               <animated.div style={{ ...springProps, overflow: "hidden" }}>
                 <Box
                   p="0.5em"
                   minWidth="6em"
                   textAlign="center"
-                  borderColor={color}
                   borderWidth="medium"
                   style={{ borderRadius: "5px" }}
                   overflow="hidden"
                   bg="whitesmoke"
                 >
-                  {label}
+                  {name}
                 </Box>
               </animated.div>
             </Html>
