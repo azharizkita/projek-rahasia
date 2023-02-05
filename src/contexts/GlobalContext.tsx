@@ -166,7 +166,7 @@ export const GlobalContext = createContext(defaultContextValue);
 export const GlobalContextProvider: React.FC<React.PropsWithChildren<{}>> = ({
   children,
 }) => {
-  const [state, dispatch] = useReducer(reducer, { ...defaultStateValue });
+  const [state, dispatch] = useReducer(reducer, defaultStateValue);
   const [isFocused, setIsFocused] = useState(false);
   const selectOptions = useMemo(() => {
     return generateSelectOptionProps(state.spheres);
